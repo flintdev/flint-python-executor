@@ -43,3 +43,8 @@ if __name__ == "__main__":
     app.start()
 
 ```
+
+## Start App
+```shell script
+python app.py
+```
