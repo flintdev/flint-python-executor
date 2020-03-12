@@ -1,4 +1,4 @@
-# executor-python
+# flint-python-executor
 
 ## Installation
 ```shell script
@@ -22,7 +22,6 @@ pip install flint-python-executor
 ```
 
 ```python
-# pip install flint-python-executor
 
 from flint import create_app
 from workflows.workflow1 import step1, step2, step3, step4

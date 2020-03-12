@@ -1,4 +1,5 @@
 from flask import Flask, request
+from handler import Handler
 
 application = Flask(__name__)
 gloabl_workflows = {}
@@ -18,7 +19,10 @@ class App:
     def execute():
         step = request.args.get('step')
         workflow = request.args.get('workflow')
-        gloabl_workflows[workflow][step]()
+        obj_name = request.args.get('obj_name')
+        handler_instance = Handler
+        handler_instance.flow_data.obj_name = obj_name
+        gloabl_workflows[workflow][step](handler_instance)
         return "complete"
 
     @staticmethod

@@ -2,6 +2,8 @@ from setuptools import setup
 import os
 import sys
 
+github_token = os.environ['GITHUB_TOKEN']
+
 _here = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info[0] < 3:
@@ -27,6 +29,10 @@ setup(
     packages=['flint'],
     install_requires=[
       'Flask==1.1.1',
+    ],
+    dependency_links=[
+        'git+https://{github_token}@github.com/user/{package}.git'
+            .format(github_token=github_token, package="flintdev")
     ],
     include_package_data=True,
     classifiers=[
