@@ -31,7 +31,7 @@ setup(
       'Flask==1.1.1',
     ],
     dependency_links=[
-        'git+https://{github_token}@github.com/flintdev/{package}.git'.format(github_token=github_token, package="flintdev")
+        'git+https://{github_token}@github.com/flintdev/{package}.git'.format(github_token=github_token, package="flint-python-executor-handler")
     ],
     include_package_data=True,
     classifiers=[
