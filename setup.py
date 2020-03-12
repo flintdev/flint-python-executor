@@ -18,23 +18,23 @@ with open(os.path.join(_here, 'flint', 'version.py')) as f:
 setup(
     name='flint-python-executor',
     version=version['__version__'],
-    description=('Show how to structure a Python project.'),
+    description=('flint python executor'),
     long_description=long_description,
-    author='Bruce Wayne',
-    author_email='bruce.wayne@example.com',
-    url='https://github.com/bast/somepackage',
-    license='MPL-2.0',
-    packages=['somepackage'],
-#   no dependencies in this example
-#   install_requires=[
-#       'dependency==1.2.3',
-#   ],
-#   no scripts in this example
-#   scripts=['bin/a-script'],
+    author='Gaoxin Dai',
+    author_email='daigx1990@gmail.com',
+    url='https://github.com/flintdev/flint-python-executor',
+    license='Apache License 2.0',
+    packages=['flint-python-executor'],
+    install_requires=[
+      'Flask==1.1.1',
+    ],
     include_package_data=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Science/Research',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.6'],
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3'
+    ]
     )
