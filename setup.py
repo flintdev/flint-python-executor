@@ -24,7 +24,7 @@ setup(
     author_email='daigx1990@gmail.com',
     url='https://github.com/flintdev/flint-python-executor',
     license='Apache License 2.0',
-    packages=['flint-python-executor'],
+    packages=['flint'],
     install_requires=[
       'Flask==1.1.1',
     ],
