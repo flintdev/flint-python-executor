@@ -2,7 +2,7 @@ from flask import Flask, request
 from handler import Handler
 
 application = Flask(__name__)
-gloabl_workflows = {}
+global_workflows = {}
 
 
 class App:
@@ -11,8 +11,8 @@ class App:
         pass
 
     def register_workflows(self, workflows):
-        global gloabl_workflows
-        gloabl_workflows = workflows
+        global global_workflows
+        global_workflows = workflows
 
     @staticmethod
     @application.route('/execute')
@@ -20,9 +20,9 @@ class App:
         step = request.args.get('step')
         workflow = request.args.get('workflow')
         obj_name = request.args.get('obj_name')
-        handler_instance = Handler
+        handler_instance = Handler()
         handler_instance.flow_data.obj_name = obj_name
-        gloabl_workflows[workflow][step](handler_instance)
+        global_workflows[workflow][step](handler_instance)
         return "complete"
 
     @staticmethod
