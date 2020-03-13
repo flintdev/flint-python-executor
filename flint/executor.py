@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from handler import Handler
 
 application = Flask(__name__)
@@ -22,8 +22,18 @@ class App:
         obj_name = request.args.get('obj_name')
         handler_instance = Handler()
         handler_instance.flow_data.obj_name = obj_name
-        global_workflows[workflow][step](handler_instance)
-        return "complete"
+        try:
+            global_workflows[workflow][step](handler_instance)
+            response = {
+                "message": "",
+                "status": "success"
+            }
+        except Exception as err:
+            response = {
+                "message": err,
+                "status": "failure"
+            }
+        return jsonify(response)
 
     @staticmethod
     def start():
