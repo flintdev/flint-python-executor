@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from handler import Handler
+import socket
+import os
 
 application = Flask(__name__)
 global_workflows = {}
@@ -37,10 +39,29 @@ class App:
 
     @staticmethod
     def start():
-        application.run(host='0.0.0.0', port=8080)
+        port = select_port()
+        set_env_var("FLINT_PYTHON_EXECUTOR_PORT", port)
+        application.run(host='0.0.0.0', port=port)
 
 
 def create_app():
     return App()
 
 
+def is_port_in_use(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
+
+
+def select_port():
+    port = 8080
+    while True:
+        if is_port_in_use(port):
+            port += 1
+        else:
+            break
+    return port
+
+
+def set_env_var(name, value):
+    os.environ[name] = value
