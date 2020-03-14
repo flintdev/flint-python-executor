@@ -40,7 +40,7 @@ class App:
     @staticmethod
     def start():
         port = select_port()
-        set_env_var("FLINT_PYTHON_EXECUTOR_PORT", str(port))
+        write_port_to_file(port)
         application.run(host='0.0.0.0', port=port)
 
 
@@ -63,5 +63,6 @@ def select_port():
     return port
 
 
-def set_env_var(name, value):
-    os.environ[name] = value
+def write_port_to_file(port):
+    with open('/tmp/flint_python_executor_port', 'w') as writer:
+        writer.write(str(port))
