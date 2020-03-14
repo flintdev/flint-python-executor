@@ -40,7 +40,7 @@ class App:
     @staticmethod
     def start():
         port = select_port()
-        set_env_var("FLINT_PYTHON_EXECUTOR_PORT", port)
+        set_env_var("FLINT_PYTHON_EXECUTOR_PORT", str(port))
         application.run(host='0.0.0.0', port=port)
 
 
