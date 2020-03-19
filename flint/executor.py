@@ -51,7 +51,7 @@ class App:
                 }
             except Exception as err:
                 response = {
-                    "message": str(err),
+                    "message": repr(err),
                     "status": "failure"
                 }
         return jsonify(response)
