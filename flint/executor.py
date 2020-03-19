@@ -62,7 +62,7 @@ class App:
         try:
             port = select_port()
             write_port_to_file(port)
-            if is_flint_dev_env:
+            if is_flint_dev_env():
                 application.run(host='0.0.0.0', port=port, debug=True)
             else:
                 application.run(host='0.0.0.0', port=port)
