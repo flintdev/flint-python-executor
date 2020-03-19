@@ -39,20 +39,19 @@ class App:
             handler_instance = Handler()
             handler_instance.flow_data.obj_name = obj_name
             try:
-                try:
-                    global_workflows[workflow][step](handler_instance)
-                    response = {
-                        "message": "",
-                        "status": "success"
-                    }
-                except FlowDataException as e:
-                    response = {
-                        "message": e.reason,
-                        "status": "failure"
-                    }
+                global_workflows[workflow][step](handler_instance)
+                response = {
+                    "message": "",
+                    "status": "success"
+                }
+            except FlowDataException as e:
+                response = {
+                    "message": e.reason,
+                    "status": "failure"
+                }
             except Exception as err:
                 response = {
-                    "message": err,
+                    "message": str(err),
                     "status": "failure"
                 }
         return jsonify(response)
