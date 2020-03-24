@@ -16,6 +16,16 @@ checkIsPyenvInstalled() {
   fi
 }
 
+checkIsZlibInstalled() {
+  brew ls --versions &> /dev/null
+  zlibStatus=$?
+  if [ "$zlibStatus" == "0" ]; then
+    isZlibistalled=true
+  else
+    isZlibistalled=false
+  fi
+}
+
 checkIsPyenvVirtualenvInstalled(){
   pyenv virtualenvs &> /dev/null
   virtualenvStatus=$?
@@ -28,13 +38,14 @@ checkIsPyenvVirtualenvInstalled(){
 
 outputJson() {
   echo -e "{\"package\":{\"Homebrew\":\"$isHomebrewInstalled\", \"pyenv\":\"$isPyenvInstalled\", \
-\"pyenv-virtualenv\":\"$isPyenvVirtualenvInstalled\"}, \"zlib\":\"$isZlibistalled\"},\"state\":{}}"
+\"pyenv-virtualenv\":\"$isPyenvVirtualenvInstalled\", \"zlib\":\"$isZlibistalled\"},\"state\":{}}"
 }
 
 main() {
   checkIsHomebrewInstalled
   checkIsPyenvInstalled
   checkIsPyenvVirtualenvInstalled
+  checkIsZlibInstalled
   outputJson
 }
 

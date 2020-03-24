@@ -22,6 +22,17 @@ installPyenv() {
   fi
 }
 
+installZlib() {
+  brew ls --versions &> /dev/null
+  zlibStatus=$?
+  if [ "$zlibStatus" == "0" ]; then
+    echo "zlib is already installed"
+  else
+    brew install zlib
+    echo "zlib Installtion Complete"
+  fi
+}
+
 installPyenvVirtualenv() {
   pyenv virtualenvs &> /dev/null
   virtualenvStatus=$?
@@ -36,16 +47,21 @@ installPyenvVirtualenv() {
       shell_profile="bashrc"
     fi
     touch "$HOME/.${shell_profile}"
-    echo 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi' >> "$HOME/.${shell_profile}"
+    echo 'eval "$(pyenv init -)"' >> "$HOME/.${shell_profile}"
+    echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.${shell_profile}"
     echo "pyenv-virtualenv Installtion Complete"
   fi
 }
 
-installPythonBseVersion(){
+installPythonAndVirtualEnv(){
   pyenv install 3.7.3
+  pyenv virtualenv 3.7.3 flint-virtual-env
+  echo "flint python virtual environment is ready"
 }
 
 checkIfAvailablePythonVersion() {
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
   baseVersion="3.5.0"
   # Get current avaliable version in pyenv
   curentVersionArray=()
@@ -69,23 +85,20 @@ checkIfAvailablePythonVersion() {
   fi
   done
 
-  for i in "${curentVersionArray[@]}"
-  do :
-  echo "$i"
-  done
-
-  for i in "${availableVersionArray[@]}"
-  do :
-  echo "$i"
-  done
-
-#  # use latest available version or install python 3.7.3
-#  if [ "${#availableVersionArray[@]}" -gt 0 ]; then
-#    avaliableVersion=${availableVersionArray[${#availableVersionArray[@]}-1]}
-#    gvm use "go$avaliableVersion"
-#  else
-#    installPythonBseVersion
-#  fi
+  # use latest available version & /virtuanl-env or install python 3.7.3 & virtuanl-env
+  if [ "${#availableVersionArray[@]}" -gt 0 ]; then
+    avaliableVersion=${availableVersionArray[${#availableVersionArray[@]}-1]}
+    pyenv activate flint-virtual-env &> /dev/null
+    activateStatus=$?
+    if [ "$activateStatus" == "0" ]; then
+      echo "flint python virtual environment is ready"
+    else
+      pyenv virtualenv "$avaliableVersion" flint-virtual-env
+      echo "flint python virtual environment is ready"
+    fi
+  else
+    installPythonAndVirtualEnv
+  fi
 }
 
 vercomp () {
