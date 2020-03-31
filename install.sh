@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if [ "$1" = "" ]; then
-    echo "Missing github token"
-    exit 1
-fi
-
-githubToken=$1
-export GITHUB_TOKEN="$githubToken"
-
 installHomebrew() {
   if [ -x "$(command -v brew)" ]; then
     echo "Homebrew is already installed"
@@ -103,14 +95,10 @@ checkIfAvailablePythonVersion() {
     activateStatus=$?
     if [ "$activateStatus" == "0" ]; then
       echo "flint python virtual environment is ready"
-      pyenv activate flint-virtual-env
-      pip install flask
-      pip install "git+https://$githubToken@github.com/flintdev/flint-python-executor.git"
     else
       pyenv virtualenv "$avaliableVersion" flint-virtual-env
       pyenv activate flint-virtual-env
-      pip isntall flask
-      pip install "git+https://$githubToken@github.com/flintdev/flint-python-executor.git"
+      pip isntall flint-python-executor=0.2.2
       echo "flint python virtual environment is ready"
     fi
   else

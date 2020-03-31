@@ -2,8 +2,6 @@ from setuptools import setup
 import os
 import sys
 
-github_token = os.environ['GITHUB_TOKEN']
-
 _here = os.path.abspath(os.path.dirname(__file__))
 
 if sys.version_info[0] < 3:
@@ -20,7 +18,7 @@ with open(os.path.join(_here, 'flint', 'version.py')) as f:
 setup(
     name='flint-python-executor',
     version=version['__version__'],
-    description=('flint python executor'),
+    description='flint python executor',
     long_description=long_description,
     author='Gaoxin Dai',
     author_email='daigx1990@gmail.com',
@@ -28,8 +26,8 @@ setup(
     license='Apache License 2.0',
     packages=['flint'],
     install_requires=[
-      'Flask==1.1.1',
-      'flint-python-executor-handler @ git+https://{github_token}@github.com/flintdev/{package}.git'.format(github_token=github_token, package="flint-python-executor-handler")
+      'flask==1.1.1',
+      'flint-python-executor-handler==0.1.0',
     ],
     include_package_data=True,
     classifiers=[
