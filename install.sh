@@ -57,8 +57,7 @@ installPythonAndVirtualEnv(){
   pyenv install 3.7.3
   pyenv virtualenv 3.7.3 flint-virtual-env
   pyenv activate flint-virtual-env &> /dev/null
-  pip install flask
-  pip install "git+https://$githubToken/flintdev/flint-python-executor.git"
+  pip isntall flint-python-executor=0.2.2
   echo "flint python virtual environment is ready"
 }
 
