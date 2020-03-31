@@ -46,13 +46,16 @@ installPyenvVirtualenv() {
       shell_profile="zshrc"
     elif [ -n "$($SHELL -c 'echo $BASH_VERSION')" ]; then
       shell_profile="bashrc"
+      echo '#pyenv' >> "$HOME/.profile"
+      echo 'eval "$(pyenv init -)"' >> "$HOME/.profile"
+      echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.profile"
     fi
     touch "$HOME/.${shell_profile}"
     touch "$HOME/.profile"
+    echo '#pyenv' >> "$HOME/.${shell_profile}"
     echo 'eval "$(pyenv init -)"' >> "$HOME/.${shell_profile}"
     echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.${shell_profile}"
-    echo 'eval "$(pyenv init -)"' >> "$HOME/.profile"
-    echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.profile"
+    source "$HOME/.${shell_profile}"
     echo "pyenv-virtualenv Installtion Complete"
   fi
 }
