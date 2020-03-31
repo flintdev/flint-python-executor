@@ -7,9 +7,9 @@ installHomebrew() {
     brew update &> /dev/null
   else
     echo "Installing homebrew..."
-    URL_BREW='https://raw.githubusercontent.com/Homebrew/install/master/install'
+    URL_BREW='https://raw.githubusercontent.com/Homebrew/install/master/install.sh'
     echo -n '- Installing brew ... '
-    echo | /usr/bin/ruby -e "$(curl -fsSL $URL_BREW)"
+    echo | /bin/bash -c "$(curl -fsSL $URL_BREW)"
     echo "Homebrew Installtion Complete"
   fi
 }
@@ -59,7 +59,7 @@ installPythonAndVirtualEnv(){
   pyenv install 3.7.3
   pyenv virtualenv 3.7.3 flint-virtual-env
   pyenv activate flint-virtual-env &> /dev/null
-  pip isntall flint-python-executor=0.2.4
+  pip isntall flint-python-executor=0.2.5
   echo "flint python virtual environment is ready"
 }
 
@@ -99,7 +99,7 @@ checkIfAvailablePythonVersion() {
     else
       pyenv virtualenv "$avaliableVersion" flint-virtual-env
       pyenv activate flint-virtual-env
-      pip isntall flint-python-executor=0.2.4
+      pip isntall flint-python-executor=0.2.5
       echo "flint python virtual environment is ready"
     fi
   else
