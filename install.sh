@@ -45,17 +45,12 @@ installPyenvVirtualenv() {
     if [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
       shell_profile="zshrc"
     elif [ -n "$($SHELL -c 'echo $BASH_VERSION')" ]; then
-      shell_profile="bashrc"
-      echo '#pyenv' >> "$HOME/.profile"
-      echo 'eval "$(pyenv init -)"' >> "$HOME/.profile"
-      echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.profile"
+      shell_profile="profile"
     fi
     touch "$HOME/.${shell_profile}"
-    touch "$HOME/.profile"
     echo '#pyenv' >> "$HOME/.${shell_profile}"
     echo 'eval "$(pyenv init -)"' >> "$HOME/.${shell_profile}"
     echo 'eval "$(pyenv virtualenv-init -)"' >> "$HOME/.${shell_profile}"
-    source "$HOME/.${shell_profile}"
     echo "pyenv-virtualenv Installtion Complete"
   fi
 }
@@ -64,7 +59,7 @@ installPythonAndVirtualEnv(){
   pyenv install 3.7.3
   pyenv virtualenv 3.7.3 flint-virtual-env
   pyenv activate flint-virtual-env &> /dev/null
-  pip install flint-python-executor=0.2.7
+  pip install flint-python-executor=0.2.9
   echo "flint python virtual environment is ready"
 }
 
@@ -104,7 +99,7 @@ checkIfAvailablePythonVersion() {
     else
       pyenv virtualenv "$avaliableVersion" flint-virtual-env
       pyenv activate flint-virtual-env
-      pip install flint-python-executor=0.2.7
+      pip install flint-python-executor=0.2.9
       echo "flint python virtual environment is ready"
     fi
   else
