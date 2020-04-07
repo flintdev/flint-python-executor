@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from handler.handler_helper import Handler
 from handler.flow_data import FlowDataException
 import socket
-import os
 
 application = Flask(__name__)
 global_workflows = {}
@@ -24,12 +23,24 @@ class App:
         step = request.args.get('step', default=None)
         workflow = request.args.get('workflow', default=None)
         obj_name = request.args.get('obj_name', default=None)
+        group = request.args.get('group', default=None)
+        version = request.args.get('version', default=None)
+        resource = request.args.get('resource', default=None)
+        namespace = request.args.get('namespace', default=None)
         if step is None:
             missing_args.append("step")
         if workflow is None:
             missing_args.append("workflow")
         if obj_name is None:
             missing_args.append("workflow")
+        if group is None:
+            missing_args.append("group")
+        if version is None:
+            missing_args.append("version")
+        if resource is None:
+            missing_args.append("resource")
+        if namespace is None:
+            missing_args.append("namespace")
         if len(missing_args) > 0:
             message = "Flint Python Executor API Missing params: {}".format(', '.join(missing_args))
             response = {
@@ -39,6 +50,10 @@ class App:
         else:
             handler_instance = Handler()
             handler_instance.flow_data.obj_name = obj_name
+            handler_instance.flow_data.group = group
+            handler_instance.flow_data.version = version
+            handler_instance.flow_data.namespace = namespace
+            handler_instance.flow_data.plural = resource
             try:
                 global_workflows[workflow][step](handler_instance)
                 response = {
