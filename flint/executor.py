@@ -80,7 +80,7 @@ class App:
             write_port_to_file(port)
             debug = os.getenv("DEBUG")
             if debug == "true":
-                application.run(host='0.0.0.0', port=port, debug=True)
+                application.run(host='0.0.0.0', port=port, debug=True, ENV="development")
             else:
                 application.run(host='0.0.0.0', port=port)
 
