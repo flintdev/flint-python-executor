@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from handler.handler_helper import Handler
 from handler.flow_data import FlowDataException
 import socket
+import os
 
 application = Flask(__name__)
 global_workflows = {}
@@ -77,7 +78,12 @@ class App:
         try:
             port = select_port()
             write_port_to_file(port)
-            application.run(host='0.0.0.0', port=port)
+            debug = os.getenv("DEBUG")
+            if debug == "true":
+                application.run(host='0.0.0.0', port=port, debug=True)
+            else:
+                application.run(host='0.0.0.0', port=port)
+
         except ExecutorException as e:
             raise ExecutorException(status=e.status, reason=e.reason)
         except Exception as e:
