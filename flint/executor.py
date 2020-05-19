@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
 from handler.handler_helper import Handler
 from handler.flow_data import FlowDataException
-import socket
+from kubernetes import client, config
+from kubernetes.client.rest import ApiException
 import os
 
 application = Flask(__name__)
 global_workflows = {}
 
+config.load_kube_config()
+api_instance = client.VersionApi()
 
 class App:
 
@@ -74,17 +77,29 @@ class App:
         return jsonify(response)
 
     @staticmethod
+    @application.route('/health')
+    def health():
+        try:
+            api_response = api_instance.get_code()
+            response = {
+                "status": "available"
+            }
+        except ApiException as e:
+            response = {
+                "status": "unavailable"
+            }
+        return jsonify(response)
+
+    @staticmethod
     def start():
         try:
-            port = select_port()
-            write_port_to_file(port)
             debug = os.getenv("DEBUG")
             if debug == "true":
                 application.config["DEBUG"] = True
                 application.config["ENV"] = "development"
-                application.run(host='0.0.0.0', port=port)
+                application.run(host='0.0.0.0', port=8080)
             else:
-                application.run(host='0.0.0.0', port=port)
+                application.run(host='0.0.0.0', port=8080)
 
         except ExecutorException as e:
             raise ExecutorException(status=e.status, reason=e.reason)
@@ -95,38 +110,6 @@ class App:
 
 def create_app():
     return App()
-
-
-def is_port_in_use(port):
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            return s.connect_ex(('localhost', port)) == 0
-    except Exception as e:
-        print(e)
-        raise ExecutorException(status=0, reason="Failed to check available Port")
-
-
-def select_port():
-    port = 8080
-    while True:
-        if is_port_in_use(port):
-            port += 1
-            if port > 8180:
-                raise ExecutorException(status=0, reason="Failed to find available Port between 8080 and 8180")
-        else:
-            break
-    return port
-
-
-# todo change to working dir when deploy
-def write_port_to_file(port):
-    file_path = '/tmp/flint_python_executor_port'
-    try:
-        with open(file_path,  'w') as writer:
-            writer.write(str(port))
-    except Exception as e:
-        print(e)
-        raise ExecutorException(status=0, reason="Failed to write port to file {0}".format(file_path))
 
 
 class ExecutorException(Exception):
