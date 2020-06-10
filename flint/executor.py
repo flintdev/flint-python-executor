@@ -92,20 +92,13 @@ class App:
 
     @staticmethod
     def start():
-        try:
-            debug = os.getenv("DEBUG")
-            if debug == "true":
-                application.config["DEBUG"] = True
-                application.config["ENV"] = "development"
-                application.run(host='0.0.0.0', port=8080)
-            else:
-                application.run(host='0.0.0.0', port=8080)
-
-        except ExecutorException as e:
-            raise ExecutorException(status=e.status, reason=e.reason)
-        except Exception as e:
-            print(e)
-            raise ExecutorException(status=0, reason="Failed to start python executor api service")
+        debug = os.getenv("DEBUG")
+        if debug == "true":
+            application.config["DEBUG"] = True
+            application.config["ENV"] = "development"
+            application.run(host='0.0.0.0', port='8080')
+        else:
+            application.run(host='0.0.0.0', port='8080')
 
 
 def create_app():
